@@ -23,7 +23,7 @@ pub fn build_cli() -> App<'static, 'static> {
 }
 
 fn end_with_gif(output: String) -> Result<(), String> {
-    if !output.ends_with(".gif") {
+    if !output.ends_with(".gif") || output.starts_with(".") {
         return Err(String::from(".gifで終わるファイル名にしてください。"));
     }
     Ok(())
@@ -34,4 +34,82 @@ fn is_number(delay: String) -> Result<(), String> {
         return Err(String::from("数字に変換出来ませんでした。"));
     }
     Ok(())
+}
+
+#[test]
+fn test_end_with_gif() {
+    let result = end_with_gif(String::from(""));
+    match result {
+        Ok(_) => {
+            panic!("空文字はエラーになる");
+        }
+        Err(_) => {}
+    }
+
+    let result = end_with_gif(String::from("sample"));
+    match result {
+        Ok(_) => {
+            panic!(".gifで終わってなければエラー");
+        }
+        Err(_) => {}
+    }
+
+    let result = end_with_gif(String::from(".gif"));
+    match result {
+        Ok(_) => {
+            panic!(".gifだけだとエラー");
+        }
+        Err(_) => {}
+    }
+
+    let result = end_with_gif(String::from("sample.gif"));
+    match result {
+        Ok(_) => {}
+        Err(_) => {
+            panic!("正常系");
+        }
+    }
+}
+
+#[test]
+fn test_is_number() {
+    let result = is_number(String::from(""));
+    match result {
+        Ok(_) => {
+            panic!("空文字はエラーになる");
+        }
+        Err(_) => {}
+    }
+
+    let result = is_number(String::from("sample"));
+    match result {
+        Ok(_) => {
+            panic!("文字列はエラーになる");
+        }
+        Err(_) => {}
+    }
+
+    let result = is_number(String::from("101"));
+    match result {
+        Ok(_) => {}
+        Err(_) => {
+            panic!("正常系！");
+        }
+    }
+
+    let result = is_number(String::from("999999"));
+    match result {
+        Ok(_) => {
+            panic!("値が大きすぎる");
+        }
+        Err(_) => {}
+    }
+
+    let result = is_number(String::from("01"));
+    match result {
+        Ok(_) => {}
+        Err(_) => {
+            panic!("正常系！");
+        }
+    }
 }
