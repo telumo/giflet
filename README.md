@@ -1,3 +1,5 @@
+![Rust](https://github.com/telumo/giflet/workflows/Rust/badge.svg)
+
 # giflet
 
 Command App to create Gif animation from image files.
