@@ -19,5 +19,5 @@ target/debug/giflet <target directory> -d <delay> -o <output path>.gif
 
 example
 ```sh
-target/debug/giflet ./images -d 10 -o output.gif
+target/debug/giflet ./images -d 10 -o output/output.gif
 ```
