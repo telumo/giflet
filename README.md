@@ -21,3 +21,4 @@ example
 ```sh
 target/debug/giflet ./images -d 10 -o output.gif
 ```
+![output](https://github.com/telumo/giflet/blob/master/output.gif)
