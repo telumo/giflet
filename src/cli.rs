@@ -1,4 +1,5 @@
 use clap::{App, AppSettings, Arg};
+use regex::Regex;
 
 pub fn build_cli() -> App<'static, 'static> {
     app_from_crate!()
@@ -19,7 +20,8 @@ pub fn build_cli() -> App<'static, 'static> {
 }
 
 fn end_with_gif(output: String) -> Result<(), String> {
-    if !output.ends_with(".gif") || output.starts_with(".") {
+    let re = Regex::new(r"^.+\.gif$").unwrap();
+    if !re.is_match(&output) {
         return Err(String::from("The file name must be ended with '.gif'."));
     }
     Ok(())
