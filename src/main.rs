@@ -22,6 +22,8 @@ fn main() {
     if let Some(directory) = matches.value_of("directory") {
         let directory_format = format!("{}/*", directory);
 
+        // TODO: 全ての画像の大きさが一致するか確認する。
+
         let mut image = File::create(output).unwrap();
         // TODO: 高さと幅がマジックナンバーになっている
         let mut encoder = Encoder::new(&mut image, 200, 200, &[]).unwrap();
