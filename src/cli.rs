@@ -10,16 +10,16 @@ pub fn build_cli() -> App<'static, 'static> {
         .arg(
             Arg::from_usage("-o --output [OUTPUT] 'The output file name.'")
                 .default_value("./output.gif")
-                .validator(end_with_gif),
+                .validator(end_with_gif_extension),
         )
         .arg(
             Arg::from_usage("-d --delay [DELAY] 'Set the time delay (in 1/100th of a second) to pause after drawing the images that are read in or created after this setting has been defined.'")
                 .default_value("10")
-                .validator(is_number),
+                .validator(is_numberu16),
         )
 }
 
-fn end_with_gif(output: String) -> Result<(), String> {
+fn end_with_gif_extension(output: String) -> Result<(), String> {
     let re = Regex::new(r"^.+\.gif$").unwrap();
     if !re.is_match(&output) {
         return Err(String::from("The file name must be ended with '.gif'."));
@@ -27,7 +27,7 @@ fn end_with_gif(output: String) -> Result<(), String> {
     Ok(())
 }
 
-fn is_number(delay: String) -> Result<(), String> {
+fn is_numberu16(delay: String) -> Result<(), String> {
     if let Err(_) = delay.parse::<u16>() {
         return Err(String::from("The string can't be converted to number or the number is too big."));
     }
@@ -36,7 +36,7 @@ fn is_number(delay: String) -> Result<(), String> {
 
 #[test]
 fn test_end_with_gif() {
-    let result = end_with_gif(String::from(""));
+    let result = end_with_gif_extension(String::from(""));
     match result {
         Ok(_) => {
             panic!("空文字はエラーになる");
@@ -44,7 +44,7 @@ fn test_end_with_gif() {
         Err(_) => {}
     }
 
-    let result = end_with_gif(String::from("sample"));
+    let result = end_with_gif_extension(String::from("sample"));
     match result {
         Ok(_) => {
             panic!(".gifで終わってなければエラー");
@@ -52,7 +52,7 @@ fn test_end_with_gif() {
         Err(_) => {}
     }
 
-    let result = end_with_gif(String::from(".gif"));
+    let result = end_with_gif_extension(String::from(".gif"));
     match result {
         Ok(_) => {
             panic!(".gifだけだとエラー");
@@ -60,7 +60,7 @@ fn test_end_with_gif() {
         Err(_) => {}
     }
 
-    let result = end_with_gif(String::from("sample.gif"));
+    let result = end_with_gif_extension(String::from("sample.gif"));
     match result {
         Ok(_) => {}
         Err(_) => {
@@ -68,7 +68,7 @@ fn test_end_with_gif() {
         }
     }
 
-    let result = end_with_gif(String::from("./output.gif"));
+    let result = end_with_gif_extension(String::from("./output.gif"));
     match result {
         Ok(_) => {}
         Err(_) => {
@@ -79,7 +79,7 @@ fn test_end_with_gif() {
 
 #[test]
 fn test_is_number() {
-    let result = is_number(String::from(""));
+    let result = is_numberu16(String::from(""));
     match result {
         Ok(_) => {
             panic!("空文字はエラーになる");
@@ -87,7 +87,7 @@ fn test_is_number() {
         Err(_) => {}
     }
 
-    let result = is_number(String::from("sample"));
+    let result = is_numberu16(String::from("sample"));
     match result {
         Ok(_) => {
             panic!("文字列はエラーになる");
@@ -95,7 +95,7 @@ fn test_is_number() {
         Err(_) => {}
     }
 
-    let result = is_number(String::from("101"));
+    let result = is_numberu16(String::from("101"));
     match result {
         Ok(_) => {}
         Err(_) => {
@@ -103,7 +103,7 @@ fn test_is_number() {
         }
     }
 
-    let result = is_number(String::from("999999"));
+    let result = is_numberu16(String::from("999999"));
     match result {
         Ok(_) => {
             panic!("値が大きすぎる");
@@ -111,7 +111,7 @@ fn test_is_number() {
         Err(_) => {}
     }
 
-    let result = is_number(String::from("01"));
+    let result = is_numberu16(String::from("01"));
     match result {
         Ok(_) => {}
         Err(_) => {
