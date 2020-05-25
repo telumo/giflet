@@ -10,12 +10,14 @@ use std::fs::File;
 fn main() {
     let matches = cli::build_cli().get_matches();
 
-    let output = matches.value_of("output").unwrap();
-    println!("output: {}", output);
+    // output file name
+    let output = matches.value_of("output").unwrap_or("./output.gif");
+    println!("output file name: {}", output);
 
-    // 間隔
-    let delay = matches.value_of("delay").unwrap();
+    // delay
+    let delay = matches.value_of("delay").unwrap_or("10");
     let delay: u16 = delay.parse::<u16>().unwrap();
+    println!("delay: {} ms", delay * 10);
 
     if let Some(directory) = matches.value_of("directory") {
         let directory_format = format!("{}/*", directory);
