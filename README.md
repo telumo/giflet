@@ -33,7 +33,7 @@ If you're using [homebrew](https://brew.sh/), you can use the `brew install` com
 
     $ brew install giflet
 
-[Formulae](https://github.com/Homebrew/homebrew-core/blob/master/Formula/exa.rb)
+[Formula](https://github.com/telumo/homebrew-giflet/blob/master/Formula/giflet.rb)
 
 ## Testing
 
