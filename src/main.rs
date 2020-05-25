@@ -22,29 +22,29 @@ fn main() {
     if let Some(directory) = matches.value_of("directory") {
         let directory_format = format!("{}/*", directory);
 
-        // TODO: 全ての画像の大きさが一致するか確認する。
-
-        let mut image = File::create(output).unwrap();
-        // TODO: 高さと幅がマジックナンバーになっている
-        let mut encoder = Encoder::new(&mut image, 200, 200, &[]).unwrap();
+        let mut output_file = File::create(output).unwrap();
+        let mut encoder = Encoder::new(&mut output_file, 1, 1, &[]).unwrap();
         encoder.set(Repeat::Infinite).unwrap();
 
-        for entry in glob(&directory_format).unwrap() {
-            match entry {
+        for filepath in glob(&directory_format).unwrap() {
+            match filepath {
                 Ok(path) => {
-                    // TODO: 失敗する可能性あり
-                    let image = image::open(&path).unwrap();
-                    let height = image.to_rgb().height();
-                    let height: u16 = TryFrom::try_from(height).unwrap();
-                    let width = image.to_rgb().width();
-                    let width: u16 = TryFrom::try_from(width).unwrap();
-                    let mut pixels: Vec<u8> = image.to_bytes();
-                    let mut frame = Frame::from_rgb(width, height, &mut *pixels);
-                    frame.delay = delay;
-                    println!("adding {:?}", &path.display());
-                    encoder.write_frame(&frame).unwrap();
+                    if image::open(&path).is_err() {
+                        println!("{:?} can't open file.", &path.display());
+                    } else {
+                        let image = image::open(&path).unwrap();
+                        let height = image.to_rgb().height();
+                        let height: u16 = TryFrom::try_from(height).unwrap();
+                        let width = image.to_rgb().width();
+                        let width: u16 = TryFrom::try_from(width).unwrap();
+                        let pixels: Vec<u8> = image.to_bytes();
+                        let mut frame = Frame::from_rgb(width, height, &pixels);
+                        frame.delay = delay;
+                        encoder.write_frame(&frame).unwrap();
+                        println!("{:?} added.", &path.display());
+                    }
                 }
-                Err(e) => println!("{:?}", e),
+                Err(e) => println!("error occured. : {:?}", e),
             }
         }
     }

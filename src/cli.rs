@@ -28,7 +28,7 @@ fn end_with_gif_extension(output: String) -> Result<(), String> {
 }
 
 fn is_numberu16(delay: String) -> Result<(), String> {
-    if let Err(_) = delay.parse::<u16>() {
+    if delay.parse::<u16>().is_err() {
         return Err(String::from(
             "The string can't be converted to number or the number is too big.",
         ));
@@ -89,5 +89,4 @@ mod tests {
     fn test_is_numberu16_start_with_zero() {
         assert!(is_numberu16(String::from("01")).is_ok());
     }
-
 }
