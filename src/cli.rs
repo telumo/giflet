@@ -29,93 +29,65 @@ fn end_with_gif_extension(output: String) -> Result<(), String> {
 
 fn is_numberu16(delay: String) -> Result<(), String> {
     if let Err(_) = delay.parse::<u16>() {
-        return Err(String::from("The string can't be converted to number or the number is too big."));
+        return Err(String::from(
+            "The string can't be converted to number or the number is too big.",
+        ));
     }
     Ok(())
 }
 
-#[test]
-fn test_end_with_gif() {
-    let result = end_with_gif_extension(String::from(""));
-    match result {
-        Ok(_) => {
-            panic!("空文字はエラーになる");
-        }
-        Err(_) => {}
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_end_with_gif_extension_void_string() {
+        assert!(end_with_gif_extension(String::from("")).is_err());
     }
 
-    let result = end_with_gif_extension(String::from("sample"));
-    match result {
-        Ok(_) => {
-            panic!(".gifで終わってなければエラー");
-        }
-        Err(_) => {}
+    #[test]
+    fn test_end_with_gif_extension_not_end_with_gif_extension() {
+        assert!(end_with_gif_extension(String::from("sample")).is_err());
     }
 
-    let result = end_with_gif_extension(String::from(".gif"));
-    match result {
-        Ok(_) => {
-            panic!(".gifだけだとエラー");
-        }
-        Err(_) => {}
+    #[test]
+    fn test_end_with_gif_extension_just_gif() {
+        assert!(end_with_gif_extension(String::from(".gif")).is_err());
     }
 
-    let result = end_with_gif_extension(String::from("sample.gif"));
-    match result {
-        Ok(_) => {}
-        Err(_) => {
-            panic!("正常系");
-        }
+    #[test]
+    fn test_end_with_gif_extension_ok() {
+        assert!(end_with_gif_extension(String::from("sample.gif")).is_ok());
     }
 
-    let result = end_with_gif_extension(String::from("./output.gif"));
-    match result {
-        Ok(_) => {}
-        Err(_) => {
-            panic!("正常系");
-        }
-    }
-}
-
-#[test]
-fn test_is_number() {
-    let result = is_numberu16(String::from(""));
-    match result {
-        Ok(_) => {
-            panic!("空文字はエラーになる");
-        }
-        Err(_) => {}
+    #[test]
+    fn test_end_with_gif_extension_default() {
+        assert!(end_with_gif_extension(String::from("./output.gif")).is_ok());
     }
 
-    let result = is_numberu16(String::from("sample"));
-    match result {
-        Ok(_) => {
-            panic!("文字列はエラーになる");
-        }
-        Err(_) => {}
+    #[test]
+    fn test_is_numberu16_void() {
+        assert!(is_numberu16(String::from("")).is_err());
     }
 
-    let result = is_numberu16(String::from("101"));
-    match result {
-        Ok(_) => {}
-        Err(_) => {
-            panic!("正常系！");
-        }
+    #[test]
+    fn test_is_numberu16_string() {
+        assert!(is_numberu16(String::from("sample")).is_err());
     }
 
-    let result = is_numberu16(String::from("999999"));
-    match result {
-        Ok(_) => {
-            panic!("値が大きすぎる");
-        }
-        Err(_) => {}
+    #[test]
+    fn test_is_numberu16_too_big() {
+        assert!(is_numberu16(String::from("999999")).is_err());
     }
 
-    let result = is_numberu16(String::from("01"));
-    match result {
-        Ok(_) => {}
-        Err(_) => {
-            panic!("正常系！");
-        }
+    #[test]
+    fn test_is_numberu16_ok() {
+        assert!(is_numberu16(String::from("101")).is_ok());
     }
+
+    #[test]
+    fn test_is_numberu16_start_with_zero() {
+        assert!(is_numberu16(String::from("01")).is_ok());
+    }
+    
 }
