@@ -19,11 +19,18 @@ fn main() {
     let delay: u16 = delay.parse::<u16>().unwrap();
     println!("delay: {} ms", delay * 10);
 
+    // size
+    let width = matches.value_of("width").unwrap_or("10");
+    let width: u16 = width.parse::<u16>().unwrap();
+    let height = matches.value_of("height").unwrap_or("10");
+    let height: u16 = height.parse::<u16>().unwrap();
+    println!("width: {} , height: {}", width, height);
+
     if let Some(directory) = matches.value_of("directory") {
         let directory_format = format!("{}/*", directory);
 
         let mut output_file = File::create(output).unwrap();
-        let mut encoder = Encoder::new(&mut output_file, 1, 1, &[]).unwrap();
+        let mut encoder = Encoder::new(&mut output_file, width, height, &[]).unwrap();
         encoder.set(Repeat::Infinite).unwrap();
 
         for filepath in glob(&directory_format).unwrap() {

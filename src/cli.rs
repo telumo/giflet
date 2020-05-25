@@ -17,6 +17,16 @@ pub fn build_cli() -> App<'static, 'static> {
                 .default_value("10")
                 .validator(is_numberu16),
         )
+        .arg(
+            Arg::from_usage("-w --width [WIDTH] 'The width of output.")
+                .default_value("200")
+                .validator(is_numberu16),
+        )
+        .arg(
+            Arg::from_usage("-h --height [HEIGHT] 'The height of output.")
+                .default_value("200")
+                .validator(is_numberu16),
+        )
 }
 
 fn end_with_gif_extension(output: String) -> Result<(), String> {
