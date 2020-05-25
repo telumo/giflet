@@ -18,6 +18,8 @@ T.B.D.
 
 - **-o**, **--output**: output file name
 - **-d**, **--delay**: delay time
+- **-w**, **--width**: output file width
+- **-h**, **--height**: output file height
 
 ## Installation
 
