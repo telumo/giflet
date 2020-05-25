@@ -1,26 +1,40 @@
-![Rust](https://github.com/telumo/giflet/workflows/Rust/badge.svg)
+# giflet [![Rust](https://github.com/telumo/giflet/workflows/Rust/badge.svg)](https://github.com/telumo/giflet/actions)
 
-# giflet
+Cli tool to create GIF easily!!
 
-Command App to create Gif animation from image files.
+## Overview
 
-## requrements
+T.B.D.
 
-- cargo
+## Screenshot
 
-## build
+![output](output.gif)
 
-```sh
-cargo build
-```
+## Usage
 
-## run
-```sh
-target/debug/giflet <target directory> -d <delay> -o <output path>.gif
-```
+    $ giflet [OPTIONS] <directory>
 
-example
-```sh
-target/debug/giflet ./images -d 10 -o output.gif
-```
-![output](https://github.com/telumo/giflet/blob/master/output.gif)
+## Options
+
+- **-o**, **--output**: output file name
+- **-d**, **--delay**: delay time
+
+## Installation
+
+### Cargo Install
+
+T.B.D
+
+### Homebrew
+
+If you're using [homebrew](https://brew.sh/), you can use the `brew install` command:
+
+    $ brew tap telumo/giflet
+
+    $ brew install giflet
+
+[Formulae](https://github.com/Homebrew/homebrew-core/blob/master/Formula/exa.rb)
+
+## Testing
+
+T.B.D

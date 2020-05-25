@@ -4,8 +4,8 @@ mod cli;
 
 use gif::{Encoder, Frame, Repeat, SetParameter};
 use glob::glob;
-use std::fs::File;
 use std::convert::TryFrom;
+use std::fs::File;
 
 fn main() {
     let matches = cli::build_cli().get_matches();
@@ -21,6 +21,7 @@ fn main() {
         let directory_format = format!("{}/*", directory);
 
         let mut image = File::create(output).unwrap();
+        // TODO: 高さと幅がマジックナンバーになっている
         let mut encoder = Encoder::new(&mut image, 200, 200, &[]).unwrap();
         encoder.set(Repeat::Infinite).unwrap();
 
@@ -30,15 +31,15 @@ fn main() {
                     // TODO: 失敗する可能性あり
                     let image = image::open(&path).unwrap();
                     let height = image.to_rgb().height();
-                    let height:u16 = TryFrom::try_from(height).unwrap();
+                    let height: u16 = TryFrom::try_from(height).unwrap();
                     let width = image.to_rgb().width();
-                    let width:u16 = TryFrom::try_from(width).unwrap();
+                    let width: u16 = TryFrom::try_from(width).unwrap();
                     let mut pixels: Vec<u8> = image.to_bytes();
                     let mut frame = Frame::from_rgb(width, height, &mut *pixels);
                     frame.delay = delay;
                     println!("adding {:?}", &path.display());
                     encoder.write_frame(&frame).unwrap();
-                },
+                }
                 Err(e) => println!("{:?}", e),
             }
         }
