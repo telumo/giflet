@@ -2,21 +2,17 @@ use clap::{App, AppSettings, Arg};
 
 pub fn build_cli() -> App<'static, 'static> {
     app_from_crate!()
-        // Cargo.tomlから情報を取得
         .setting(AppSettings::DeriveDisplayOrder)
-        // ディレクトリ
         .arg(Arg::from_usage(
-            "<directory> '画像ファイルが存在するディレクトリ'",
+            "<directory> 'The directory existing target image files.'",
         ))
-        // 出力先
         .arg(
-            Arg::from_usage("-o --output [OUTPUT] '出力ファイル名'")
+            Arg::from_usage("-o --output [OUTPUT] 'The output file name.'")
                 .default_value("./output.gif")
                 .validator(end_with_gif),
         )
-        // 間隔
         .arg(
-            Arg::from_usage("-d --delay [DELAY] '画像間の間隔'")
+            Arg::from_usage("-d --delay [DELAY] 'Set the time delay (in 1/100th of a second) to pause after drawing the images that are read in or created after this setting has been defined.'")
                 .default_value("10")
                 .validator(is_number),
         )
@@ -24,14 +20,14 @@ pub fn build_cli() -> App<'static, 'static> {
 
 fn end_with_gif(output: String) -> Result<(), String> {
     if !output.ends_with(".gif") || output.starts_with(".") {
-        return Err(String::from(".gifで終わるファイル名にしてください。"));
+        return Err(String::from("The file name must be ended with '.gif'."));
     }
     Ok(())
 }
 
 fn is_number(delay: String) -> Result<(), String> {
     if let Err(_) = delay.parse::<u16>() {
-        return Err(String::from("数字に変換出来ませんでした。"));
+        return Err(String::from("The string can't be converted to number or the number is too big."));
     }
     Ok(())
 }
@@ -63,6 +59,14 @@ fn test_end_with_gif() {
     }
 
     let result = end_with_gif(String::from("sample.gif"));
+    match result {
+        Ok(_) => {}
+        Err(_) => {
+            panic!("正常系");
+        }
+    }
+
+    let result = end_with_gif(String::from("./output.gif"));
     match result {
         Ok(_) => {}
         Err(_) => {

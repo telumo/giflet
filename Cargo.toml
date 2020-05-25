@@ -4,7 +4,6 @@ version = "0.1.0"
 authors = ["telumo <drumscohika@gmail.com>"]
 description = "Command App to create Gif animation from image files."
 edition = "2018"
-build = "src/build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -12,6 +11,3 @@ clap = "2.33.1"
 glob = "0.3.0"
 gif = "0.10.3"
 image = "0.23.4"
-
-[build-dependencies]
-clap = "2.33.1"
