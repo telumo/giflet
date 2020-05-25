@@ -44,7 +44,7 @@ $ wget https://github.com/telumo/giflet/releases/download/v0.1.3-alpha/giflet-0.
 $ sha256sum giflet-0.3.0-x86_64-linux-musl.tar.gz
 # => 085105653aa2d868f8cfa77ba8f7ff13d34c1ab652bc3ea4817cd436e71e98be  giflet-0.3.0-x86_64-linux-musl.tar.gz
 
-$ tar xzf giflet-0.3.0-x86_64-linux-musl.tar.gz
+$ tar -x -f giflet-0.3.0-x86_64-linux-musl.tar.gz -z
 
 $ ./giflet ./images
 
