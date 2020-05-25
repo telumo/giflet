@@ -13,7 +13,7 @@ pub fn build_cli() -> App<'static, 'static> {
                 .validator(end_with_gif_extension),
         )
         .arg(
-            Arg::from_usage("-d --delay [DELAY] 'Set the time delay (in 1/100th of a second) to pause after drawing the images that are read in or created after this setting has been defined.'")
+            Arg::from_usage("-d --delay [DELAY] 'Set the time delay (in 1/100th of a second) to pause after drawing the images that are read in or created after this setting has been defined. If you set this number to 100, the delay time will be 1000ms (1 sec).'")
                 .default_value("10")
                 .validator(is_numberu16),
         )
@@ -89,5 +89,5 @@ mod tests {
     fn test_is_numberu16_start_with_zero() {
         assert!(is_numberu16(String::from("01")).is_ok());
     }
-    
+
 }
